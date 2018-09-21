@@ -9,6 +9,10 @@ import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 
 public class SwingUtil {
+	/**  
+     * Don't let anyone instantiate this class.  
+     */ 
+	private SwingUtil() {}
 
 	/**
 	 * 调用JFileChooser选择文件，返回选择的路径

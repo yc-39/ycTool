@@ -7,6 +7,10 @@ import java.util.GregorianCalendar;
  * 工具类，实现公农历互转（该工具类支持农历1900年正月初一到2099年腊月三十之间的农历日期）
  */
 public class LunarCalendarUtil {
+	/**  
+     * Don't let anyone instantiate this class.  
+     */ 
+	private LunarCalendarUtil() {}
 
 	/**
 	 * 支持转换的最小农历年份

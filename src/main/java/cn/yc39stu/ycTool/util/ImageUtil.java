@@ -9,6 +9,10 @@ import javax.imageio.ImageIO;
 
 
 public class ImageUtil {
+	/**  
+     * Don't let anyone instantiate this class.  
+     */ 
+	private ImageUtil() {}
 
 	private static final String DEFAULT_FORMAT_NAME = "jpeg";
 	

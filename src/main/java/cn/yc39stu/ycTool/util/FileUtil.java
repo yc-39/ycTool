@@ -13,6 +13,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FileUtil {
+	/**  
+     * Don't let anyone instantiate this class.  
+     */ 
+	private FileUtil() {}
 
 	/**
 	 *  删除文件
