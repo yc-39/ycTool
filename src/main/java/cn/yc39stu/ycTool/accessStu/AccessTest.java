@@ -5,6 +5,9 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
+/**
+ * 测试access数据库
+ */
 public class AccessTest {
 	
 	private Connection connection = null;

@@ -117,8 +117,8 @@ public class FileUtil {
 	/**
 	 * 复制文件/文件夹
 	 * sourceFile与destFile必须同为文件类型或文件夹类型
-	 * @param source 
-	 * @param dest 
+	 * @param sourceFile
+	 * @param destFile
 	 */
 	public static void copy(File sourceFile, File destFile) {
 		System.out.println("复制..." + sourceFile.getAbsolutePath() + "  -->  " + destFile.getAbsolutePath());
