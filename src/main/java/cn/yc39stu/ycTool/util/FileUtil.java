@@ -66,7 +66,7 @@ public class FileUtil {
 		try (BufferedReader br = new BufferedReader(new FileReader(file))){
 			String temp = br.readLine();
 			while (temp != null) {
-				sb.append(temp);
+				sb.append(temp + "\r\n");
 				temp = br.readLine();
 			}
 		} catch (FileNotFoundException e) {
