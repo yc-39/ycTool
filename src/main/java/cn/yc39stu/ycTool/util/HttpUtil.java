@@ -13,10 +13,7 @@ import org.apache.http.message.BasicHeader;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.util.*;
 
 public class HttpUtil {
@@ -24,8 +21,11 @@ public class HttpUtil {
     private static HttpPost httpPost = null;
     private static HttpGet httpGet = null;
     private static CloseableHttpResponse httpResponse = null;
+    private static HttpEntity entity = null;
     private static InputStream is = null;
     private static BufferedReader br = null;
+    private static BufferedOutputStream bos = null;
+    private static int cache = 10 * 1024 * 1024; // 缓冲区大小
     private static String[] user_agents = {
             "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36",
             "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1; AcooBrowser; .NET CLR 1.1.4322; .NET CLR 2.0.50727)",
@@ -81,7 +81,7 @@ public class HttpUtil {
      * @param url
      * @return
      */
-    public String get(String url) {
+    public static String get(String url) {
         // 设置请求头
         Map<String, String> headerMap = new HashMap<>();
         headerMap.put("Accept", "text/html,application/xhtml+xml, application/xml;q=0.9,image/webp,*/*;q=0.8");
@@ -280,9 +280,37 @@ public class HttpUtil {
             int i = 0;
             for (String headerKey : headerMap.keySet()) {
                 headers[i] = new BasicHeader(headerKey, headerMap.get(headerKey));
+                i++;
             }
         }
         return headers;
+    }
+
+
+    /**
+     * 下载文件
+     * @param url 文件url
+     * @param path 文件本地路径
+     */
+    public static void getFile(String url, String path){
+        try {
+            httpClient = HttpClients.createDefault();
+            httpGet = new HttpGet(url);
+            httpResponse = httpClient.execute(httpGet);
+            entity = httpResponse.getEntity();
+            is = entity.getContent();
+            bos = new BufferedOutputStream(new FileOutputStream(new File(path)));
+            byte[] buffer = new byte[cache];
+            int temp = 0;
+            while((temp = is.read(buffer)) != -1) {
+                bos.write(buffer,0, temp);
+            }
+            bos.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            closeAll();
+        }
     }
 
     /**
@@ -290,6 +318,10 @@ public class HttpUtil {
      */
     private static void closeAll() {
         try {
+            if (bos != null) {
+                bos.close();
+                bos = null;
+            }
             if (br != null) {
                 br.close();
                 br = null;
@@ -321,12 +353,19 @@ public class HttpUtil {
 
 
     public static void main(String[] args) {
-        String url = "https://www.sojson.com/user/open/loadUser.shtml";
+//        String url = "http://www.164yu.com/";
 
-        Map<String, String> headerMap = new HashMap<>();
-        headerMap.put("user-agent", user_agents[0]);
-        String str = post(url, headerMap, null);
-        System.out.println(str);
+//        String str = post(url);
+//        String str = get(url);
+//        System.out.println(str);
+
+        String fileUtl = "https://avatar.csdn.net/7/0/2/3_libiao312.jpg";
+        String filePath = "d://yc//2_yc_39.jpg";
+        try {
+            getFile(fileUtl, filePath);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
     }
 
